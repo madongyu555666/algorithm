@@ -1,7 +1,10 @@
 package com.algorithm.algorithm;
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
 
 /**
  * 排序算法
@@ -276,21 +279,159 @@ public class SortingAlgorithm {
     }
 
 
+    /**
+     * 计数排序
+     *
+     */
+     public static int[] countSort(int[] array){
+         //1.得到数列的最大值
+         int max = array[0];
+         for (int i = 1; i < array.length; i++){
+             if(array[i]>max){
+                 max =array[i];
+             }
+         }
+         //2.根据数列最大值确定统计数组的长度
+         int[] countArray =new int[max+1];
+         //3.遍历数列，填充统计数据
+         for (int i = 0; i < array.length; i++) {
+             countArray[array[i]]++;
+         }
+         //4.遍历统计数组，输出结果
+         int index =0;
+         int[] sortedArray = new int[array.length];
+         for (int i = 0; i < countArray.length; i++) {
+             for (int j = 0; j< countArray[i]; j++) {
+                 sortedArray[index++]=i;
+             }
+         }
+         return sortedArray;
+     }
+
+
+    /**
+     * 计数排序优化（稳定排序）
+     */
+    public static int[] countSort2(int[] array){
+        //1.得到数列的最大值和最小值，并计算出差值d
+        int max =array[0];
+        int min =array[0];
+        for (int i = 0; i < array.length; i++) {
+            if(array[i]>max){
+                max=array[i];
+            }
+            if(array[i]<min){
+                min=array[i];
+            }
+        }
+        int d =max-min;
+        //2.创建统计数组并统计对应的元素个数
+        int[] countArray = new int[d+1];
+        for (int i = 0; i < array.length; i++) {
+           countArray[array[i]-min]++;
+        }
+        //3.统计数组做变形，后面的元素等于前面的元素之和
+        for (int i = 1; i < countArray.length; i++) {
+            countArray[i] +=countArray[i-1];
+        }
+        //4.倒叙遍历原始数列，从统计数组中找到正确的位置，输出到结果数组
+        int[] sortedArray = new int[array.length];
+        for (int i = array.length -1; i >=0; i--) {
+            sortedArray[countArray[array[i]-min]-1]=array[i];//从统计数组中找到正确的位置
+            countArray[array[i]-min]--;//从统计数组中找到正确的位置,减去1
+        }
+        return sortedArray;
+    }
+
+
+
+
+
+
+    /*public static void main(String[] args) {
+        int[] array =new int[]{95,94,91,98,99,90,99,93,91,92};
+        int[] sortedArray = countSort2(array);
+        System.out.println(Arrays.toString(sortedArray));
+    }*/
+
+    /*public static void main(String[] args) {
+        int[] array =new int[]{4,4,6,5,3,2,8,1,7,5,6,0,10};
+        int[] sortedArray = countSort(array);
+        System.out.println(Arrays.toString(sortedArray));
+    }*/
+
+    /**
+     * 桶排序
+     *
+     */
+     public static  double[] bucketSort(double[] array){
+         //1.得到数列的最大值和最小值，并计算出差值d
+         double max =array[0];
+         double min =array[0];
+         for (int i = 0; i < array.length; i++) {
+             if(array[i]>max){
+                 max=array[i];
+             }
+             if(array[i]<min){
+                 min=array[i];
+             }
+         }
+         double d =max-min;
+         //2.初始化桶
+         int bucketNum=array.length;
+         ArrayList<LinkedList<Double>> bucketList=new ArrayList<>(bucketNum);
+         for (int i = 0; i < bucketNum; i++) {
+             bucketList.add(new LinkedList<Double> ());
+         }
+         
+         //3.遍历原始数组，将每个元素放入桶中
+         for (int i = 0; i < array.length; i++) {
+             int num=(int)((array[i]-min)*(bucketNum-1)/d);//得到区间跨度：区间跨度=(最大值-最小值)/(桶的数量-1)
+             bucketList.get(num).add(array[i]);//往桶中填写值
+         }
+         //4.对每个桶内部进行排序
+         for (int i = 0; i < bucketList.size(); i++) {
+             //jdk底层采用了归并排序或者归并的优化版本
+             Collections.sort(bucketList.get(i));
+         }
+         //输出全部元素
+         double[] sortedArray = new double[array.length];
+         int index =0;
+         for (LinkedList<Double> list : bucketList) {
+             for (Double element : list) {
+                sortedArray[index]= element;
+                index++;
+             }
+         }
+         return sortedArray;
+
+     }
 
     public static void main(String[] args) {
-        /*int[] array =new int[]{5,8,6,3,9,2,1,7};
-        sort4(array);
-        System.out.println(Arrays.toString(array));*/
+        double[] array =new double[]{4.12,6.421,0.0023,3.0,0,2.123,8.122,4.12,10.09};
+        double[] sortedArray=bucketSort(array);
+        System.out.println(Arrays.toString(sortedArray));
+    }
 
-        /*int[] arr =new int[]{4,4,6,5,3,2,8,1};
+
+
+
+
+
+    /*public static void main(String[] args) {
+        *//*int[] array =new int[]{5,8,6,3,9,2,1,7};
+        sort4(array);
+        System.out.println(Arrays.toString(array));*//*
+
+        *//*int[] arr =new int[]{4,4,6,5,3,2,8,1};
         quickSort(arr,0,args.length-1);
-        System.out.println(Arrays.toString(arr));*/
+        System.out.println(Arrays.toString(arr));*//*
 
         //最大堆
         int[] arr =new int[]{1,3,2,6,5,7,8,9,10,0};
         heapSort(arr);
         System.out.println(Arrays.toString(arr));
-    }
+    }*/
 
 
 
