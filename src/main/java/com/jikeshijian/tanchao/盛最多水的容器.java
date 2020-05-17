@@ -7,8 +7,8 @@ package com.jikeshijian.tanchao;
  * @date 2020/5/1416:25
  */
 public class 盛最多水的容器 {
-    public int maxArea(int[] height) {
+    /*public int maxArea(int[] height) {
 
-    }
+    }*/
 
 }

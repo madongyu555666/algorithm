@@ -102,7 +102,7 @@ public class 删除排序数组中的重复项 {
         }
         return i+1;
     }*/
-    public static int removeDuplicates5(int[] nums) {
+    /*public static int removeDuplicates5(int[] nums) {
         if(nums.length ==0){
             return 0;
         }
@@ -114,12 +114,29 @@ public class 删除排序数组中的重复项 {
             }
         }
         return i+1;
+    }*/
+
+    public static int removeDuplicates2(int[] nums) {
+       if(nums.length==0){
+           return 0;
+       }
+       int i=0;
+        for (int j = 1; j < nums.length; j++) {
+            if(nums[j]!=nums[i]){
+                i++;
+                nums[i]=nums[j];
+            }
+        }
+        return i+1;
     }
 
     public static void main(String[] args) {
         int[] s={1,1,2};
-        int i = removeDuplicates5(s);
+        int i = removeDuplicates2(s);
         System.out.println(i);
     }
+
+
+
 
 }
