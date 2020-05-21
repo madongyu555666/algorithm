@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class 括号生成 {
 
-    public List<String> generateParenthesis(int n) {
+   /* public List<String> generateParenthesis(int n) {
         List<String> result=new ArrayList<>();
         // 执行深度优先遍历，搜索可能的结果
         dfs("", result,n, n);
@@ -25,7 +25,6 @@ public class 括号生成 {
             result.add(sublist);
              return;
         }
-
         //判断左括号
         if(left>0){
             dfs(sublist+"(",result,left-1,right);
@@ -34,5 +33,29 @@ public class 括号生成 {
         if(left<right){
             dfs(sublist+")",result,left,right-1);
         }
+    }*/
+
+
+    public List<String> generateParenthesis(int n) {
+        List<String> result=new ArrayList<>();
+        dfs("",result, n,n);
+        return result;
     }
+
+    private void dfs(String s, List<String> result, int left, int right) {
+        if(left==0&&right==0){
+            result.add(s);
+            return;
+        }
+        //左括号
+        if(left>0){
+            dfs(s+"（",result,left-1, right);
+        }
+        //右
+        if(right>left){
+            dfs(s+")",result,left,right-1);
+        }
+    }
+
+
 }
