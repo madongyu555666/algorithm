@@ -1,9 +1,6 @@
 package com.jikeshijian.tanchao;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author madongyu
@@ -51,6 +48,28 @@ public class N叉树的前序遍历 {
         }
         return out;
     }
+
+    public List<Integer> preorder2(Node root) {
+        LinkedList<Node> stack = new LinkedList<Node> ();
+        LinkedList<Integer> out = new LinkedList<Integer> ();
+        if(root == null){
+            return out;
+        }
+        stack.add(root);
+        while (!stack.isEmpty()){
+            Node node= (Node) stack.pollLast();
+            out.add(node.val);
+            //反转数据
+            Collections.reverse(node.children);
+            for (Node child : node.children) {
+                stack.add(child);
+            }
+        }
+        return out;
+    }
+
+
+
 /*[1,null,3,2,4,null,5,6]*/
 
     /*class Solution {
