@@ -7,4 +7,5 @@ package com.jikeshijian.tanchao;
  * @date 2020/5/1911:33
  */
 public class Pow {
+
 }
